@@ -1,0 +1,6 @@
+dependencies:
+- name: buildmaster
+  repository: file://../inedo-sql
+  version: 0.1.1
+digest: sha256:dd82128442b468c9feca25441d5c3d41ea229b7aba19ffa6f08d213d5a0c0a81
+generated: "2024-08-28T12:04:28.0348721-04:00"
