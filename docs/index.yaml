@@ -1,16 +1,16 @@
 apiVersion: v1
 entries:
-  buildmaster:
-  - apiVersion: v2
-    appVersion: 1.16.0
-    created: "2024-09-03T10:56:46.8925028-04:00"
-    description: A Helm chart for Kubernetes
-    digest: 293d05720e1c08ef37dcb3a1c65c481ab2d12acf3718bf362cc2d010cca6fb5c
-    name: buildmaster
-    type: application
-    urls:
-    - https://chejuro1.github.io/BuildMasterCharts/buildmaster-0.1.0.tgz
-    version: 0.1.0
+  # buildmaster:
+  # - apiVersion: v2
+  #   appVersion: 1.16.0
+  #   created: "2024-09-03T10:56:46.8925028-04:00"
+  #   description: A Helm chart for Kubernetes
+  #   digest: 293d05720e1c08ef37dcb3a1c65c481ab2d12acf3718bf362cc2d010cca6fb5c
+  #   name: buildmaster
+  #   type: application
+  #   urls:
+  #   - https://chejuro1.github.io/BuildMasterCharts/buildmaster-0.1.0.tgz
+  #   version: 0.1.0
   inedo-sql:
   - apiVersion: v2
     appVersion: 1.16.0
