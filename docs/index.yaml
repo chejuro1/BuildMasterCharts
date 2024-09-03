@@ -1,0 +1,14 @@
+apiVersion: v1
+entries:
+  inedo-sql:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2024-09-03T12:12:55.0718047-04:00"
+    description: A Helm chart for Kubernetes
+    digest: f9c35bffa1b2acc5712172747b6a64ebcc926a938eaa1ce35d036aa72197534a
+    name: inedo-sql
+    type: application
+    urls:
+    - https://chejuro1.github.io/BuildMasterCharts/inedo-sql-0.1.0.tgz
+    version: 0.1.0
+generated: "2024-09-03T12:12:55.0701923-04:00"
