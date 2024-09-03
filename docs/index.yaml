@@ -3,7 +3,7 @@ entries:
   buildmaster:
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2024-09-03T10:23:24.2674249-04:00"
+    created: "2024-09-03T10:26:57.2391224-04:00"
     description: A Helm chart for Kubernetes
     digest: 293d05720e1c08ef37dcb3a1c65c481ab2d12acf3718bf362cc2d010cca6fb5c
     name: buildmaster
@@ -14,7 +14,7 @@ entries:
   inedo-sql:
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2024-09-03T10:23:24.2695771-04:00"
+    created: "2024-09-03T10:26:57.2413751-04:00"
     description: A Helm chart for Kubernetes
     digest: fe278bba36a9065b3254388f54ac87fc5308da2bfe8573994bd96b9a2a9f756d
     name: inedo-sql
@@ -22,4 +22,4 @@ entries:
     urls:
     - https://chejuro1.github.io/BuildMasterCharts/inedo-sql-0.1.0.tgz
     version: 0.1.0
-generated: "2024-09-03T10:23:24.2651441-04:00"
+generated: "2024-09-03T10:26:57.2380774-04:00"
