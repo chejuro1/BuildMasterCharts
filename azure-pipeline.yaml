@@ -10,7 +10,11 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
- - script: |
+ - task: AWSCLI@1
+   inputs:
+     awsCredentials: 'aws_ecr'
+     regionName: 'us-east-1'
+     awsCommand: | 
              curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
              helm version --short
 
@@ -25,4 +29,6 @@ steps:
    displayName: 'helm charts in S3 '
 
  
+ 
 
+  
