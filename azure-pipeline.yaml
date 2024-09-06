@@ -5,7 +5,7 @@ pool:
   vmImage: 'ubuntu-latest'
 
 variables:
-  AWS_DEFAULT_REGION: 'us-east-1'  # Set the AWS region you're working with
+  - group: aws 
 
 steps:
   # Step 1: Install AWS CLI
@@ -29,7 +29,7 @@ steps:
   - script: |
       aws configure set aws_access_key_id $(AWS_ACCESS_KEY_ID)
       aws configure set aws_secret_access_key $(AWS_SECRET_ACCESS_KEY)
-      aws configure set region $(AWS_DEFAULT_REGION)
+      aws configure set region $(region)
     displayName: 'Configure AWS Credentials'
 
   # Step 3: Install Helm
