@@ -14,17 +14,8 @@ steps:
    inputs:
      awsCredentials: 'aws_ecr'
      regionName: 'us-east-1'
-     awsCommand: | 
-             curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
-             helm version --short
-
-             # Install helm-s3 plugin 
-             helm plugin install https://github.com/hypnoglow/helm-s3.git
-
-             # Initialize the target repo
-             s3 init s3://chejurhelmchart/stable/myapp/ 
-             # add repo
-             helm repo add Buildmaster s3://chejurhelmchart/stable/myapp/
+     awsCommand: curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+             
 
    displayName: 'helm charts in S3 '
 
