@@ -5,7 +5,7 @@ pool:
   vmImage: 'ubuntu-latest'
 
 variables:
-- group: aws
+  AWS_DEFAULT_REGION: 'us-east-1'  # Set the AWS region you're working with
 
 steps:
   # Step 1: Install AWS CLI
@@ -17,12 +17,38 @@ steps:
   - script: |
       sudo apt-get update
       sudo apt-get install -y awscli
-      aws --help
+      sudo apt-get install -y unzip
+      curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+      unzip awscliv2.zip
+      sudo ./aws/install
+
     displayName: 'Install AWS CLI'
 
   # Step 2: Configure AWS Credentials
   - script: |
       aws configure set aws_access_key_id $(AWS_ACCESS_KEY_ID)
       aws configure set aws_secret_access_key $(AWS_SECRET_ACCESS_KEY)
-      aws configure set region $(region)
+      aws configure set region $(AWS_DEFAULT_REGION)
     displayName: 'Configure AWS Credentials'
+
+  # Step 3: Install Helm
+  - script: |
+      curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+    displayName: 'Install Helm'
+
+  - script: |
+      helm version --short
+    displayName: 'Check Helm Version'
+
+  # Step 4: Install Helm S3 Plugin
+  - script: |
+      helm plugin install https://github.com/hypnoglow/helm-s3.git
+    displayName: 'Install Helm S3 Plugin'
+
+  # Step 5: Initialize and Add S3 Repo
+  - script: |
+      helm s3 init s3://chejurhelmchart/stable/myapp/
+      helm repo add Buildmaster s3://chejurhelmchart/stable/myapp/
+    displayName: 'Initialize and Add Helm Repo'
+
+
