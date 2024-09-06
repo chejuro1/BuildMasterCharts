@@ -17,6 +17,7 @@ steps:
   - script: |
       sudo apt-get update
       sudo apt-get install -y awscli
+      aws --help
     displayName: 'Install AWS CLI'
 
   # Step 2: Configure AWS Credentials
