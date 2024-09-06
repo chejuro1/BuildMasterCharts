@@ -11,21 +11,18 @@ pool:
 
 steps:
  - script: |
-              ls $(System.DefaultWorkingDirectory)
-              echo "terraform build started.."
-              cd $(System.DefaultWorkingDirectory)/
-              echo "list all the files"
-              ls -la 
-   displayName: 'Setup Enviroment'
+             curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+             helm version --short
 
- - task: CopyFiles@2
-   inputs:
-      SourceFolder: './'
-      Contents: |
-                 **/*
-                      
-      TargetFolder: '$(Build.ArtifactStagingDirectory)'
-   displayName: 'Copy Artifacts'
+             # Install helm-s3 plugin 
+             helm plugin install https://github.com/hypnoglow/helm-s3.git
 
- - publish: '$(Build.ArtifactStagingDirectory)'
-   artifact: artifacts
+             # Initialize the target repo
+             s3 init s3://chejurhelmchart/stable/myapp/ 
+             # add repo
+             helm repo add Buildmaster s3://chejurhelmchart/stable/myapp/
+
+   displayName: 'helm charts in S3 '
+
+ 
+
