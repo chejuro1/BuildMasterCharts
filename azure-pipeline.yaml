@@ -61,12 +61,12 @@ stages:
               sed -i "s/^version:.*/version: $new_version/" buildmaster/Chart.yaml
               
               # Commit the version change (this step assumes git is configured in the pipeline)
-            #   git config --global user.email "julestl@yahoo.fr"
-            #   git config --global user.name "DevOps Pipeline"
-            #   git add buildmaster/Chart.yaml
-            #   git commit -m "Increment chart version to $new_version"
-            #   git push
-            # displayName: 'Increment Chart Version'
+              git config --global user.email "julestl@yahoo.fr"
+              git config --global user.name "DevOps Pipeline"
+              git add buildmaster/Chart.yaml
+              git commit -m "Increment chart version to $new_version"
+              git push
+            displayName: 'Increment Chart Version'
 
           # Step 6: Initialize and Add S3 Repo
           - script: |
@@ -76,11 +76,10 @@ stages:
           
           # Step 7: Create Helm Chart and Push to S3
           - script: |
-              ls  # List directory contents
-              pwd # Print current working directory
+              printenv
               helm package buildmaster  # Package the Helm chart with updated version
               echo "Packaging Helm chart with version: $new_version"
-              newchart=$(echo "buildmaster-$new_version.tgz")
+              newchart=$(echo buildmaster-$new_version.tgz)
               echo $newchart
               helm s3 push $newchart Buildmaster  # Push the chart to the S3 Helm repo
             displayName: 'Package and Push Helm Chart'
