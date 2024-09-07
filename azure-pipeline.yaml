@@ -48,14 +48,14 @@ steps:
 
   # Step 5: Initialize and Add S3 Repo
   - script: |
-      helm s3 init s3://chejurhelmchart/stable/myapp/
-      helm repo add Buildmaster s3://chejurhelmchart/stable/myapp/
+      helm s3 init s3://chejurhelmchart/Buildmaster
+      helm repo add Buildmaster s3://chejurhelmchart/Buildmaster
     displayName: 'Initialize and Add Helm Repo'
   
   # Step 5: create helm chart
   - script: |
       helm package Buildmaster
-      helm s3 push ./Buildmaster-0.1.0.tgz inedo-sql
+      helm s3 push ./Buildmaster-0.1.0.tgz Buildmaster
     displayName: 'Initialize and Add Helm Repo'
 
 
