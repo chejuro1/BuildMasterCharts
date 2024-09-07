@@ -58,6 +58,8 @@ stages:
           
           # Step 5: create helm chart
           - script: |
+              ls 
+              pwd 
               helm package Buildmaster
               helm s3 push ./Buildmaster-0.1.0.tgz Buildmaster
             displayName: 'Initialize and Add Helm Repo'
