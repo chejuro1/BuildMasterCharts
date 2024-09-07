@@ -21,7 +21,7 @@ stages:
           - script: |
               sudo apt-get update
               sudo apt-get install -y awscli
-              sudo apt-get install -y unzip
+              #sudo apt-get install -y unzip
             displayName: 'Install AWS CLI'
 
           # Step 2: Configure AWS Credentials using variables from the group
@@ -80,9 +80,9 @@ stages:
               pwd # Print current working directory
               helm package buildmaster  # Package the Helm chart with updated version
               echo "Packaging Helm chart with version: $new_version"
-              new-chart=$(echo './buildmaster-$new_version.tgz')
-              echo $new-chart
-              helm s3 push $new-chart Buildmaster  # Push the chart to the S3 Helm repo
+              newchart=$(echo "buildmaster-$new_version.tgz")
+              echo $newchart
+              helm s3 push $newchart Buildmaster  # Push the chart to the S3 Helm repo
             displayName: 'Package and Push Helm Chart'
 
   # - stage: CI
