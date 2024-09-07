@@ -61,6 +61,7 @@ stages:
               sed -i "s/^version:.*/version: $new_version/" buildmaster/Chart.yaml
               
               # Commit the version change (this step assumes git is configured in the pipeline)
+              git remote -v 
               git config --global user.email "julestl@yahoo.fr"
               git config --global user.name "DevOps Pipeline"
               git add buildmaster/Chart.yaml
