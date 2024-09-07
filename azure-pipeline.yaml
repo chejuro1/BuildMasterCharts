@@ -7,55 +7,68 @@ pool:
 variables:
   - group: aws 
 
-steps:
-  # Step 1: Install AWS CLI
-  - task: UsePythonVersion@0
-    inputs:
-      versionSpec: '3.x'
-      addToPath: true
+stages:
+  - stage: CI
+    jobs:
+      - job: Build
+        steps:
+          # Step 1: Install AWS CLI
+          - task: UsePythonVersion@0
+            inputs:
+              versionSpec: '3.x'
+              addToPath: true
 
-  - script: |
-      sudo apt-get update
-      sudo apt-get install -y awscli
-      sudo apt-get install -y unzip
-      # curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-      # unzip awscliv2.zip
-      # sudo ./aws/install
-     
+          - script: |
+              sudo apt-get update
+              sudo apt-get install -y awscli
+              sudo apt-get install -y unzip
+              # curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+              # unzip awscliv2.zip
+              # sudo ./aws/install
+            
 
-    displayName: 'Install AWS CLI'
+            displayName: 'Install AWS CLI'
 
-  # Step 2: Configure AWS Credentials
-  - script: |
-      aws configure set aws_access_key_id $(accesskey)
-      aws configure set aws_secret_access_key $(secretkey)
-      aws configure set region $(region)
-    displayName: 'Configure AWS Credentials'
+          # Step 2: Configure AWS Credentials
+          - script: |
+              aws configure set aws_access_key_id $(accesskey)
+              aws configure set aws_secret_access_key $(secretkey)
+              aws configure set region $(region)
+            displayName: 'Configure AWS Credentials'
 
-  # Step 3: Install Helm
-  - script: |
-      curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
-    displayName: 'Install Helm'
+          # Step 3: Install Helm
+          - script: |
+              curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+            displayName: 'Install Helm'
 
-  - script: |
-      helm version --short
-    displayName: 'Check Helm Version'
+          - script: |
+              helm version --short
+            displayName: 'Check Helm Version'
 
-  # Step 4: Install Helm S3 Plugin
-  - script: |
-      helm plugin install https://github.com/hypnoglow/helm-s3.git
-    displayName: 'Install Helm S3 Plugin'
+          # Step 4: Install Helm S3 Plugin
+          - script: |
+              helm plugin install https://github.com/hypnoglow/helm-s3.git
+            displayName: 'Install Helm S3 Plugin'
 
-  # Step 5: Initialize and Add S3 Repo
-  - script: |
-      helm s3 init s3://chejurhelmchart/Buildmaster
-      helm repo add Buildmaster s3://chejurhelmchart/Buildmaster
-    displayName: 'Initialize and Add Helm Repo'
-  
-  # Step 5: create helm chart
-  - script: |
-      helm package Buildmaster
-      helm s3 push ./Buildmaster-0.1.0.tgz Buildmaster
-    displayName: 'Initialize and Add Helm Repo'
+          # Step 5: Initialize and Add S3 Repo
+          - script: |
+              helm s3 init s3://chejurhelmchart/Buildmaster
+              helm repo add Buildmaster s3://chejurhelmchart/Buildmaster
+            displayName: 'Initialize and Add Helm Repo'
+          
+          # Step 5: create helm chart
+          - script: |
+              helm package Buildmaster
+              helm s3 push ./Buildmaster-0.1.0.tgz Buildmaster
+            displayName: 'Initialize and Add Helm Repo'
+  # - stage: CI
+  #   jobs:
+  #     - job: Build
+  #       steps:
+  #       # Step 5: Initialize and Add S3 Repo
+  #         - script: |
+  #             helm s3 init s3://chejurhelmchart/Buildmaster
+  #             helm repo add Buildmaster s3://chejurhelmchart/Buildmaster
+  #           displayName: 'Initialize and Add Helm Repo'
 
 
