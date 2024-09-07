@@ -81,6 +81,7 @@ stages:
               helm package buildmaster  # Package the Helm chart with updated version
               echo "Packaging Helm chart with version: $new_version"
               new-chart=$(echo './buildmaster-$new_version.tgz')
+              echo $new-chart
               helm s3 push $new-chart Buildmaster  # Push the chart to the S3 Helm repo
             displayName: 'Package and Push Helm Chart'
 
