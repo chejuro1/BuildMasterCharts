@@ -79,7 +79,7 @@ stages:
               ls  # List directory contents
               pwd # Print current working directory
               helm package buildmaster  # Package the Helm chart with updated version
-              helm s3 push ./buildmaster-${new_version}.tgz Buildmaster  # Push the chart to the S3 Helm repo
+              helm s3 push ./buildmaster-$new_version.tgz Buildmaster  # Push the chart to the S3 Helm repo
             displayName: 'Package and Push Helm Chart'
 
   # - stage: CI
