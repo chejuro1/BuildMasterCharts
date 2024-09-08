@@ -21,7 +21,7 @@ stages:
           - script: |
               sudo apt-get update
               sudo apt-get install -y awscli
-              #sudo apt-get install -y unzip
+              sudo apt-get install -y unzip
             displayName: 'Install AWS CLI'
 
           # Step 2: Configure AWS Credentials using variables from the group
@@ -45,29 +45,32 @@ stages:
               helm plugin install https://github.com/hypnoglow/helm-s3.git
             displayName: 'Install Helm S3 Plugin'
 
-          # Step 5: Increment Chart Version Based on Commit
+          # Step 5: Retrieve Latest Chart Version from S3 and Increment
           - script: |
-              # Extract current chart version from Chart.yaml
-              current_version=$(grep '^version:' buildmaster/Chart.yaml | awk '{print $2}')
+              # List the Helm chart packages in S3 bucket and extract the latest version
+              latest_chart=$(aws s3 ls s3://chejurhelmchart/Buildmaster/ | grep buildmaster | sort | tail -n 1)
+              echo "Latest chart in S3: $latest_chart"
+              
+              # Extract the current version from the chart filename
+              current_version=$(echo $latest_chart | grep -oP '(?<=buildmaster-)[0-9]+\.[0-9]+\.[0-9]+(?=\.tgz)')
               echo "Current version: $current_version"
               
-              # Increment the patch version (you can modify to increment minor or major)
+              # Increment the patch version (you can modify this to increment minor or major)
               IFS='.' read -r major minor patch <<< "$current_version"
               new_patch=$((patch+1))
               new_version="$major.$minor.$new_patch"
               echo "New version: $new_version"
               
-              # Update Chart.yaml with new version
+              # Update Chart.yaml with the new version
               sed -i "s/^version:.*/version: $new_version/" buildmaster/Chart.yaml
               
               # Commit the version change (this step assumes git is configured in the pipeline)
-             
-              git config --global user.email "julestl@yahoo.fr"
-              git config --global user.name "chejuro1"
-              git add buildmaster/Chart.yaml
-              git commit -m "Increment chart version to $new_version"
-              git push 
-            displayName: 'Increment Chart Version'
+              # git config --global user.email "devops@example.com"
+              # git config --global user.name "DevOps Pipeline"
+              # git add buildmaster/Chart.yaml
+              # git commit -m "Increment chart version to $new_version"
+              # git push
+            # displayName: 'Retrieve Latest Chart Version and Increment'
 
           # Step 6: Initialize and Add S3 Repo
           - script: |
@@ -77,13 +80,12 @@ stages:
           
           # Step 7: Create Helm Chart and Push to S3
           - script: |
-              printenv
-              helm package buildmaster  # Package the Helm chart with updated version
-              echo "Packaging Helm chart with version: $new_version"
-              newchart=$(echo buildmaster-$new_version.tgz)
-              echo $newchart
-              helm s3 push $newchart Buildmaster  # Push the chart to the S3 Helm repo
+              ls  # List directory contents
+              pwd # Print current working directory
+              helm package buildmaster  # Package the Helm chart with the updated version
+              helm s3 push ./buildmaster-${new_version}.tgz Buildmaster  # Push the chart to the S3 Helm repo
             displayName: 'Package and Push Helm Chart'
+
 
   # - stage: CI
   #   jobs:
