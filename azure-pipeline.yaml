@@ -66,12 +66,6 @@ stages:
               # Update Chart.yaml with the new version
               sed -i "s/^version:.*/version: $new_version/" buildmaster/Chart.yaml
               
-              # Commit the version change (this step assumes git is configured in the pipeline)
-              # git config --global user.email "devops@example.com"
-              # git config --global user.name "DevOps Pipeline"
-              # git add buildmaster/Chart.yaml
-              # git commit -m "Increment chart version to $new_version"
-              # git push
             displayName: 'Retrieve Latest Chart Version and Increment'
 
           # Step 6: Initialize and Add S3 Repo
