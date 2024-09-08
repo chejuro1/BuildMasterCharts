@@ -70,7 +70,7 @@ stages:
               # git add buildmaster/Chart.yaml
               # git commit -m "Increment chart version to $new_version"
               # git push
-            # displayName: 'Retrieve Latest Chart Version and Increment'
+            displayName: 'Retrieve Latest Chart Version and Increment'
 
           # Step 6: Initialize and Add S3 Repo
           - script: |
@@ -80,10 +80,9 @@ stages:
           
           # Step 7: Create Helm Chart and Push to S3
           - script: |
-              ls  # List directory contents
-              pwd # Print current working directory
+              printenv
               helm package buildmaster  # Package the Helm chart with the updated version
-              helm s3 push ./buildmaster-${new_version}.tgz Buildmaster  # Push the chart to the S3 Helm repo
+              helm s3 push ./buildmaster-$new_version.tgz Buildmaster  # Push the chart to the S3 Helm repo
             displayName: 'Package and Push Helm Chart'
 
 
