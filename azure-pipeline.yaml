@@ -63,7 +63,7 @@ stages:
               # Commit the version change (this step assumes git is configured in the pipeline)
               git branch -a 
               git config --global user.email "julestl@yahoo.fr"
-              git config --global user.name "DevOps Pipeline"
+              git config --global user.name "chejuro1"
               git add buildmaster/Chart.yaml
               git commit -m "Increment chart version to $new_version"
               git push origin HEAD
