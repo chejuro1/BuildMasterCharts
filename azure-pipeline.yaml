@@ -59,6 +59,8 @@ stages:
               IFS='.' read -r major minor patch <<< "$current_version"
               new_patch=$((patch+1))
               new_version="$major.$minor.$new_patch"
+              # Set variable to be used on the same pipeline job
+              echo "##vso[task.setvariable variable=new_version]$new_version"
               echo "New version: $new_version"
               
               # Update Chart.yaml with the new version
@@ -82,7 +84,7 @@ stages:
           - script: |
               printenv
               helm package buildmaster  # Package the Helm chart with the updated version
-              helm s3 push ./buildmaster-$new_version.tgz Buildmaster  # Push the chart to the S3 Helm repo
+              helm s3 push ./buildmaster-$(new_version).tgz Buildmaster  # Push the chart to the S3 Helm repo
             displayName: 'Package and Push Helm Chart'
 
 
