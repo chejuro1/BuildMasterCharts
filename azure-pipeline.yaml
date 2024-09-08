@@ -61,12 +61,13 @@ stages:
               sed -i "s/^version:.*/version: $new_version/" buildmaster/Chart.yaml
               
               # Commit the version change (this step assumes git is configured in the pipeline)
-              git branch -a 
+              git branch tmp
+              git checkout main
               git config --global user.email "julestl@yahoo.fr"
               git config --global user.name "chejuro1"
               git add buildmaster/Chart.yaml
               git commit -m "Increment chart version to $new_version"
-              git push origin HEAD
+              git push origin main
             displayName: 'Increment Chart Version'
 
           # Step 6: Initialize and Add S3 Repo
