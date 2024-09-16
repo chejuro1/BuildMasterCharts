@@ -79,10 +79,14 @@ stages:
           - script: |
               printenv
               helm package buildmaster  # Package the Helm chart with updated version
+              helm package inedo-sql
               echo "Packaging Helm chart with version: $new_version"
               newchart=$(echo buildmaster-$new_version.tgz)
+              newchart1=$(echo inedo-sql-$new_version.tgz)
               echo $newchart
+              echo $newchart1
               helm s3 push $newchart Buildmaster  # Push the chart to the S3 Helm repo
+              helm s3 push $newchart1 Buildmaster  # Push the chart to the S3 Helm repo
             displayName: 'Package and Push Helm Chart'
 
   # - stage: CI
