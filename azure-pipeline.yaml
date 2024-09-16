@@ -21,7 +21,7 @@ stages:
           - script: |
               sudo apt-get update
               sudo apt-get install -y awscli
-              #sudo apt-get install -y unzip
+              sudo apt-get install -y unzip
             displayName: 'Install AWS CLI'
 
           # Step 2: Configure AWS Credentials using variables from the group
@@ -45,29 +45,28 @@ stages:
               helm plugin install https://github.com/hypnoglow/helm-s3.git
             displayName: 'Install Helm S3 Plugin'
 
-          # Step 5: Increment Chart Version Based on Commit
+          # Step 5: Retrieve Latest Chart Version from S3 and Increment
           - script: |
-              # Extract current chart version from Chart.yaml
-              current_version=$(grep '^version:' buildmaster/Chart.yaml | awk '{print $2}')
+              # List the Helm chart packages in S3 bucket and extract the latest version
+              latest_chart=$(aws s3 ls s3://chejurhelmchart/Buildmaster/ | grep buildmaster | sort | tail -n 1)
+              echo "Latest chart in S3: $latest_chart"
+              
+              # Extract the current version from the chart filename
+              current_version=$(echo $latest_chart | grep -oP '(?<=buildmaster-)[0-9]+\.[0-9]+\.[0-9]+(?=\.tgz)')
               echo "Current version: $current_version"
               
-              # Increment the patch version (you can modify to increment minor or major)
+              # Increment the patch version (you can modify this to increment minor or major)
               IFS='.' read -r major minor patch <<< "$current_version"
               new_patch=$((patch+1))
               new_version="$major.$minor.$new_patch"
+              # Set variable to be used on the same pipeline job
+              echo "##vso[task.setvariable variable=new_version]$new_version"
               echo "New version: $new_version"
               
-              # Update Chart.yaml with new version
+              # Update Chart.yaml with the new version
               sed -i "s/^version:.*/version: $new_version/" buildmaster/Chart.yaml
               
-              # Commit the version change (this step assumes git is configured in the pipeline)
-              git branch -a 
-              git config --global user.email "julestl@yahoo.fr"
-              git config --global user.name "DevOps Pipeline"
-              git add buildmaster/Chart.yaml
-              git commit -m "Increment chart version to $new_version"
-              git push origin/b0d4001273b7eccdd5acf610986ba6d031cd3ebe
-            displayName: 'Increment Chart Version'
+            displayName: 'Retrieve Latest Chart Version and Increment'
 
           # Step 6: Initialize and Add S3 Repo
           - script: |
@@ -78,6 +77,7 @@ stages:
           # Step 7: Create Helm Chart and Push to S3
           - script: |
               printenv
+<<<<<<< HEAD
               helm package buildmaster  # Package the Helm chart with updated version
               helm package inedo-sql
               echo "Packaging Helm chart with version: $new_version"
@@ -87,16 +87,20 @@ stages:
               echo $newchart1
               helm s3 push $newchart Buildmaster  # Push the chart to the S3 Helm repo
               helm s3 push $newchart1 Buildmaster  # Push the chart to the S3 Helm repo
+=======
+              helm package buildmaster  # Package the Helm chart with the updated version
+              helm s3 push ./buildmaster-$(new_version).tgz Buildmaster  # Push the chart to the S3 Helm repo
+>>>>>>> f4a1cf5e6c5c96cf299d19bb1eae83edb1b11dc7
             displayName: 'Package and Push Helm Chart'
 
-  # - stage: CI
-  #   jobs:
-  #     - job: Build
-  #       steps:
-  #       # Step 5: Initialize and Add S3 Repo
-  #         - script: |
-  #             helm s3 init s3://chejurhelmchart/Buildmaster
-  #             helm repo add Buildmaster s3://chejurhelmchart/Buildmaster
-  #           displayName: 'Initialize and Add Helm Repo'
+
+  - stage: deploy
+    jobs:
+      - job: Deploychart
+        steps:
+        # Step 5: Initialize and Add S3 Repo
+          - script: |
+              helm upgrade --install Buildmaster Buildmaster/Buildmaster --version 0.1.3 --namespace default
+            displayName: 'Install the chart in kubernetes cluster '
 
 
