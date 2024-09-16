@@ -107,9 +107,10 @@ stages:
             displayName: 'login kubernetes cluster '
         # Step 5: Initialize and Add S3 Repo
           - script: |
+              helm repo add Buildmaster s3://chejurhelmchart/Buildmaster
               helm search repo Buildmaster --versions
-              helm upgrade --install Buildmaster Buildmaster/buildmaster --version 0.1.9 --namespace default
-              helm upgrade --install inedo-sql Buildmaster/inedo-sql --version 0.1.9 --namespace default
+              helm upgrade --install Buildmaster Buildmaster/buildmaster --version 0.1.10 --namespace default
+              helm upgrade --install inedo-sql Buildmaster/inedo-sql --version 0.1.10 --namespace default
             displayName: 'Install the chart in kubernetes cluster '
 
 
