@@ -107,6 +107,10 @@ stages:
             displayName: 'login kubernetes cluster '
         # Step 5: Initialize and Add S3 Repo
           - script: |
+              # Install S3 potocol
+              helm plugin install https://github.com/hypnoglow/helm-s3.git
+              helm s3 init s3://chejurhelmchart/Buildmaster
+              # Deploy the package
               helm repo add Buildmaster s3://chejurhelmchart/Buildmaster
               helm search repo Buildmaster --versions
               helm upgrade --install buildmaster Buildmaster/buildmaster --version 0.1.10 --namespace default
