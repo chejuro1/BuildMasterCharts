@@ -65,6 +65,10 @@ stages:
               
               # Update Chart.yaml with the new version
               sed -i "s/^version:.*/version: $new_version/" buildmaster/Chart.yaml
+            
+              # Set variable to be used on the same pipeline job
+              echo "##vso[task.setvariable variable=new_version]$new_version"
+              echo "New version: $new_version"
               
             displayName: 'Retrieve Latest Chart Version and Increment'
 
@@ -85,7 +89,7 @@ stages:
               echo $newchart
               echo $newchart1
               helm s3 push $newchart Buildmaster  # Push the chart to the S3 Helm repo
-              helm s3 push $newchart1 Buildmaster  # Push the chart to the S3 Helm repo
+              helm s3 push $newchart1 Buildmaster # Push the chart to the S3 Helm repo
             displayName: 'Package and Push Helm Chart'
 
 
