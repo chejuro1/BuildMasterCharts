@@ -65,6 +65,7 @@ stages:
               
               # Update Chart.yaml with the new version
               sed -i "s/^version:.*/version: $new_version/" buildmaster/Chart.yaml
+              sed -i "s/^version:.*/version: $new_version/" inedo-sql/Chart.yaml
             
               
             displayName: 'Retrieve Latest Chart Version and Increment'
