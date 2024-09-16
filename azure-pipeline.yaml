@@ -99,7 +99,7 @@ stages:
       - job: Deploychart
         steps:
           - script: |
-              aws eks update-kubeconfig --region us-east-1 --name "education-eks-MnoutSJ4"
+              aws eks update-kubeconfig --region us-east-1 --name "education-eks-I8Obm8vr"
 
             displayName: 'login kubernetes cluster '
         # Step 5: Initialize and Add S3 Repo
