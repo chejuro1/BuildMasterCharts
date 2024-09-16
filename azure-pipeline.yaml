@@ -77,9 +77,8 @@ stages:
           # Step 7: Create Helm Chart and Push to S3
           - script: |
               printenv
-<<<<<<< HEAD
               helm package buildmaster  # Package the Helm chart with updated version
-              helm package inedo-sql
+              helm package inedo-sql    # Package the Helm chart with updated version
               echo "Packaging Helm chart with version: $new_version"
               newchart=$(echo buildmaster-$new_version.tgz)
               newchart1=$(echo inedo-sql-$new_version.tgz)
@@ -87,10 +86,6 @@ stages:
               echo $newchart1
               helm s3 push $newchart Buildmaster  # Push the chart to the S3 Helm repo
               helm s3 push $newchart1 Buildmaster  # Push the chart to the S3 Helm repo
-=======
-              helm package buildmaster  # Package the Helm chart with the updated version
-              helm s3 push ./buildmaster-$(new_version).tgz Buildmaster  # Push the chart to the S3 Helm repo
->>>>>>> f4a1cf5e6c5c96cf299d19bb1eae83edb1b11dc7
             displayName: 'Package and Push Helm Chart'
 
 
