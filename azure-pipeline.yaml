@@ -66,9 +66,6 @@ stages:
               # Update Chart.yaml with the new version
               sed -i "s/^version:.*/version: $new_version/" buildmaster/Chart.yaml
             
-              # Set variable to be used on the same pipeline job
-              echo "##vso[task.setvariable variable=new_version]$new_version"
-              echo "New version: $new_version"
               
             displayName: 'Retrieve Latest Chart Version and Increment'
 
@@ -83,9 +80,9 @@ stages:
               printenv
               helm package buildmaster  # Package the Helm chart with updated version
               helm package inedo-sql    # Package the Helm chart with updated version
-              echo "Packaging Helm chart with version: $new_version"
-              newchart=$(echo buildmaster-$new_version.tgz)
-              newchart1=$(echo inedo-sql-$new_version.tgz)
+              echo "Packaging Helm chart with version: $(new_version)"
+              newchart=$(echo buildmaster-$(new_version).tgz)
+              newchart1=$(echo inedo-sql-$(new_version).tgz)
               echo $newchart
               echo $newchart1
               helm s3 push $newchart Buildmaster  # Push the chart to the S3 Helm repo
