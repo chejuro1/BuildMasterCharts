@@ -98,9 +98,13 @@ stages:
         environment: deploy
       - job: Deploychart
         steps:
+          - script: |
+              aws eks update-kubeconfig --region us-east-1 --name "education-eks-MnoutSJ4"
+
+            displayName: 'login kubernetes cluster '
         # Step 5: Initialize and Add S3 Repo
           - script: |
-              helm repo search Buildmaster
+              helm search repo Buildmaster
               helm upgrade --install Buildmaster Buildmaster/Buildmaster --version 0.1.6 --namespace default
               helm upgrade --install Buildmaster Buildmaster/inedo-sql --version 0.1.6 --namespace default
             displayName: 'Install the chart in kubernetes cluster '
