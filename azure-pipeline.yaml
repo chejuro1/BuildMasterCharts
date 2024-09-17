@@ -66,6 +66,8 @@ stages:
               # Update Chart.yaml with the new version
               sed -i "s/^version:.*/version: $new_version/" buildmaster/Chart.yaml
               sed -i "s/^version:.*/version: $new_version/" inedo-sql/Chart.yaml
+              sed -i "s/^version:.*/version: $new_version/" proget/Chart.yaml
+              sed -i "s/^version:.*/version: $new_version/" otter/Chart.yaml
             
               
             displayName: 'Retrieve Latest Chart Version and Increment'
@@ -81,13 +83,20 @@ stages:
               printenv
               helm package buildmaster  # Package the Helm chart with updated version
               helm package inedo-sql    # Package the Helm chart with updated version
+              helm package proget   # Package the Helm chart with updated version
+              helm package otter   # Package the Helm chart with updated version
               echo "Packaging Helm chart with version: $(new_version)"
               newchart=$(echo buildmaster-$(new_version).tgz)
               newchart1=$(echo inedo-sql-$(new_version).tgz)
+              newchart2=$(echo proget-$(new_version).tgz)
+              newchart3=$(echo proget-$(new_version).tgz)
               echo $newchart
               echo $newchart1
+              echo $newchart2
               helm s3 push $newchart Buildmaster  # Push the chart to the S3 Helm repo
               helm s3 push $newchart1 Buildmaster # Push the chart to the S3 Helm repo
+              helm s3 push $newchart2 Buildmaster # Push the chart to the S3 Helm repo
+              helm s3 push $newchart3 Buildmaster # Push the chart to the S3 Helm repo
             displayName: 'Package and Push Helm Chart'
 
 
@@ -102,7 +111,7 @@ stages:
               aws configure set aws_access_key_id $(accesskey)
               aws configure set aws_secret_access_key $(secretkey)
               aws configure set region $(region)
-              aws eks update-kubeconfig --region us-east-1 --name "education-eks-I8Obm8vr"
+              aws eks update-kubeconfig --region us-east-1 --name "education-eks-HyIgzZbD"
 
             displayName: 'login kubernetes cluster '
         # Step 5: Initialize and Add S3 Repo
@@ -114,7 +123,7 @@ stages:
               helm repo add Buildmaster s3://chejurhelmchart/Buildmaster
               helm search repo Buildmaster --versions
               helm upgrade --install buildmaster Buildmaster/buildmaster --version 0.1.10 --namespace default
-              helm upgrade --install inedo-sql Buildmaster/inedo-sql --version 0.1.10 --namespace default
+              # helm upgrade --install inedo-sql Buildmaster/inedo-sql --version 0.1.10 --namespace default
             displayName: 'Install the chart in kubernetes cluster '
 
 
