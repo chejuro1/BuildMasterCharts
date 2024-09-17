@@ -126,8 +126,8 @@ stages:
               helm search repo Buildmaster --versions
               # helm upgrade --install buildmaster Buildmaster/buildmaster --version 0.1.17 --namespace default
               # helm upgrade --install inedo-sql Buildmaster/inedo-sql --version 0.1.10 --namespace default
-              helm upgrade --install proget Buildmaster/proget --version 0.1.17 --namespace default
-              helm upgrade --install otter Buildmaster/otter --version 0.1.17 --namespace default
+              helm upgrade --install proget Buildmaster/proget --version 0.1.24 --namespace default
+              helm upgrade --install otter Buildmaster/otter --version 0.1.24 --namespace default
             displayName: 'Install the chart in kubernetes cluster '
 
 
