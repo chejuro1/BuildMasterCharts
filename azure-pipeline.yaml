@@ -124,7 +124,7 @@ stages:
               helm repo add Buildmaster s3://chejurhelmchart/Buildmaster
               helm repo update
               helm search repo Buildmaster --versions
-              helm upgrade --install buildmaster Buildmaster/builmaster --version 0.1.17 --namespace default
+              helm upgrade --install buildmaster Buildmaster/buildmaster --version 0.1.17 --namespace default
               # helm upgrade --install inedo-sql Buildmaster/inedo-sql --version 0.1.10 --namespace default
               # helm upgrade --install proget Buildmaster/proget --version 0.1.17 --namespace default
               # helm upgrade --install otter Buildmaster/otter --version 0.1.17 --namespace default
