@@ -111,7 +111,7 @@ stages:
               aws configure set aws_access_key_id $(accesskey)
               aws configure set aws_secret_access_key $(secretkey)
               aws configure set region $(region)
-              aws eks update-kubeconfig --region us-east-1 --name "education-eks-bDWlLuzI"
+              aws eks update-kubeconfig --region us-east-1 --name "education-eks-1u1yGzYV"
 
             displayName: 'login kubernetes cluster '
         # Add database /opt/mssql-tools18/bin/sqlcmd -S localhost -U SA -P 'Jpo45l..2020' -Q 'CREATE DATABASE BuildMaster COLLATE SQL_Latin1_General_CP1_CI_AS' -C
