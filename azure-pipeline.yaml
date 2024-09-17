@@ -89,7 +89,7 @@ stages:
               newchart=$(echo buildmaster-$(new_version).tgz)
               newchart1=$(echo inedo-sql-$(new_version).tgz)
               newchart2=$(echo proget-$(new_version).tgz)
-              newchart3=$(echo proget-$(new_version).tgz)
+              newchart3=$(echo otter-$(new_version).tgz)
               echo $newchart
               echo $newchart1
               echo $newchart2
