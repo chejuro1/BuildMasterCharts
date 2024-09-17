@@ -38,7 +38,7 @@ spec:
               containerPort: {{ .Values.service.port }}
               protocol: TCP
           env:
-            - name: BUILDMASTER_SQL_CONNECTION_STRING
+            - name: OTTER_SQL_CONNECTION_STRING
               valueFrom:
                   configMapKeyRef:
                     name: {{ .Release.Name }}-configmap
