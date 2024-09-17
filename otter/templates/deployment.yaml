@@ -37,6 +37,12 @@ spec:
             - name: http
               containerPort: {{ .Values.service.port }}
               protocol: TCP
+          env:
+            - name: BUILDMASTER_SQL_CONNECTION_STRING
+              valueFrom:
+                  configMapKeyRef:
+                    name: {{ .Release.Name }}-configmap
+                    key: OTTER_SQL_CONNECTION_STRING
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
