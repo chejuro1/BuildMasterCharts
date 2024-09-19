@@ -114,8 +114,8 @@ stages:
               aws eks update-kubeconfig --region us-east-1 --name "education-eks-cHfJJ6Y7"
 
             displayName: 'login kubernetes cluster '
-        # Add database /opt/mssql-tools18/bin/sqlcmd -S localhost -U SA -P 'Jpo45l..2020' -Q 'CREATE DATABASE ProGet COLLATE SQL_Latin1_General_CP1_CI_AS' -C
-        # Step 5: Initialize and Add S3 Repo
+        # Add  /opt/mssql-tools18/bin/sqlcmd -S localhost -U SA -P 'Jpo45l..2020' -Q 'CREATE DATABASE ProGet COLLATE SQL_Latin1_General_CP1_CI_AS' -C
+        # Step 5: Initialize and Add S3 Repo 
         #BuildMaster
         #ProGet
           - script: |
@@ -126,10 +126,10 @@ stages:
               helm repo add Buildmaster s3://chejurhelmchart/Buildmaster
               helm repo update
               helm search repo Buildmaster --versions
-              # helm upgrade --install buildmaster Buildmaster/buildmaster --version 0.1.42 --namespace default
-              helm upgrade --install inedo-sql Buildmaster/inedo-sql --version 0.1.42 --namespace default
-              # helm upgrade --install proget Buildmaster/proget --version 0.1.42 --namespace default
-              # helm upgrade --install otter Buildmaster/otter --version 0.1.42 --namespace default
+              helm upgrade --install buildmaster Buildmaster/buildmaster --version 0.1.42 --namespace default
+              #helm upgrade --install inedo-sql Buildmaster/inedo-sql --version 0.1.42 --namespace default
+              helm upgrade --install proget Buildmaster/proget --version 0.1.42 --namespace default
+              helm upgrade --install otter Buildmaster/otter --version 0.1.42 --namespace default
             displayName: 'Install the chart in kubernetes cluster '
 
 
